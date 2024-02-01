@@ -1,0 +1,179 @@
+.PricingCards {
+  --pricing-cards-column-gap: var(--base-size-96);
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  grid-template-areas:
+    'label'
+    'heading'
+    'description'
+    'price'
+    'feature-list'
+    'footer';
+}
+
+/*
+ * Single column layout
+ */
+
+.PricingCards--items-1 {
+  /* TODO: Horizontal layout */
+}
+
+/*
+ * Two column layout
+ */
+
+.PricingCards--items-2 {
+  padding-block: var(--base-size-48);
+  padding-inline: var(--base-size-64);
+  border-radius: var(--brand-borderRadius-xlarge);
+  border: solid 1px var(--brand-color-border-default);
+  background-color: var(--brand-color-canvas-default);
+  column-gap: calc(var(--pricing-cards-column-gap) * 2);
+}
+
+.PricingCards--items-2 .PricingCards__item:nth-child(2)::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  width: 1px;
+  margin-inline-start: calc(var(--pricing-cards-column-gap) * -1);
+  background-color: var(--brand-color-border-default);
+}
+
+/*
+ * Three column layout
+ */
+
+.PricingCards--items-3 {
+  column-gap: var(--base-size-32);
+}
+
+.PricingCards--items-3 .PricingCards__item {
+  padding-block: var(--base-size-48);
+  padding-inline: var(--base-size-32);
+  border-radius: var(--brand-borderRadius-xlarge);
+  border: solid 1px var(--brand-color-border-default);
+  background-color: var(--brand-color-canvas-default);
+}
+
+/*
+ * Item
+ */
+
+.PricingCards__item {
+  position: relative;
+  display: grid;
+  grid-row: label / actions;
+  grid-template-columns: 1fr;
+  grid-template-rows: subgrid;
+}
+
+/*
+ * Backwards compatibility for browsers that don't support subgrid.
+ * Can be remove fully once subgrid is supported in the last 3 major versions of Safari.
+ * https://caniuse.com/?search=subgrid
+ */
+@supports not (grid-template-rows: subgrid) {
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  grid-template-areas:
+    'label'
+    'heading'
+    'description'
+    'price'
+    'feature-list'
+    'actions';
+}
+
+/*
+ * Content
+ */
+
+.PricingCards__label {
+  grid-row: label;
+  padding-inline: 0;
+  color: var(--brand-color-accent-primary);
+}
+
+.PricingCards__heading {
+  grid-row: heading;
+  margin-block-start: var(--base-size-8);
+  margin-block-end: var(--base-size-16);
+}
+
+.PricingCards__description {
+  grid-row: description;
+}
+
+.PricingCards__price {
+  display: flex;
+  gap: var(--base-size-12);
+  grid-row: price;
+  padding-block: var(--base-size-24);
+}
+
+.PricingCards__feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--base-size-8);
+  grid-row: feature-list;
+  border-top: solid 1px var(--brand-color-border-default);
+  padding-block: var(--base-size-24);
+  margin: 0;
+  padding-inline: 0;
+}
+
+.PricingCards__feature-list-item {
+}
+
+/* TODO: Replace once UnorderedList items support custom colors */
+.PricingCards__feature-list-item svg {
+  fill: var(--brand-color-accent-primary);
+}
+
+.PricingCards__actions {
+  grid-row: actions;
+  display: flex;
+  gap: var(--base-size-8);
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.PricingCards--items-3 .PricingCards__actions {
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.PricingCards__actions > * {
+  flex: 1 0 auto;
+  white-space: nowrap;
+}
+
+@media (min-width: 40rem) {
+  .PricingCards__actions {
+    flex-wrap: nowrap;
+  }
+}
+
+.PricingCards__primary-action,
+.PricingCards__secondary-action {
+  flex: 1 1 auto;
+}
+
+.PricingCards__secondary-action {
+}
+
+.PricingCards__price-currency-symbol {
+  line-height: 1.4;
+}
+
+.PricingCards__price-value {
+  font-size: 56px;
+  line-height: 1;
+}
+
+.PricingCards__price-trailing-text {
+  align-self: center;
+}
