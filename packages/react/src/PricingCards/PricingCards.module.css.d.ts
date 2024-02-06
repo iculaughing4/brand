@@ -2,8 +2,8 @@ declare const styles: {
   readonly "PricingCards": string;
   readonly "PricingCards--items-1": string;
   readonly "PricingCards--items-2": string;
-  readonly "PricingCards__item": string;
   readonly "PricingCards--items-3": string;
+  readonly "PricingCards__item": string;
   readonly "PricingCards__label": string;
   readonly "PricingCards__heading": string;
   readonly "PricingCards__description": string;

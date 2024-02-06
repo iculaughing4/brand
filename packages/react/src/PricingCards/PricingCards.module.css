@@ -1,50 +1,103 @@
-.PricingCards {
-  --pricing-cards-column-gap: var(--base-size-96);
+/* ---------------------------------------------------------- */
+/* Pricing cards component                                    */
+/* ---------------------------------------------------------- */
+/* Table of contents:                                         */
+/* 1. Container                                               */
+/* 2. Single item layout                                      */
+/* 3. Multiple item layout                                    */
+/* 4. Two items                                               */
+/* 5. Three items                                             */
+/* 6. Item                                                    */
+/* 7. Content                                                 */
+/* ---------------------------------------------------------- */
 
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-  grid-template-areas:
-    'label'
-    'heading'
-    'description'
-    'price'
-    'feature-list'
-    'footer';
+/* ---------------------------------------------------------- */
+/* 1. Container                                               */
+/* ---------------------------------------------------------- */
+
+.PricingCards {
 }
 
-/*
- * Single column layout
- */
+/* ---------------------------------------------------------- */
+/* 2. Single plan layout                                      */
+/* ---------------------------------------------------------- */
 
 .PricingCards--items-1 {
-  /* TODO: Horizontal layout */
+  display: flex;
 }
 
-/*
- * Two column layout
- */
+/* ---------------------------------------------------------- */
+/* 3. Multiple column layout                                  */
+/* ---------------------------------------------------------- */
+
+.PricingCards--items-2,
+.PricingCards--items-3 {
+  --pricing-cards-item-gap: var(--base-size-96);
+}
+
+@media (min-width: 63.25rem) {
+  .PricingCards--items-2,
+  .PricingCards--items-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+
+    grid-template-areas:
+      'label'
+      'heading'
+      'description'
+      'price'
+      'feature-list'
+      'footer';
+  }
+}
+
+/* ---------------------------------------------------------- */
+/* 4. Two item layout                                         */
+/* ---------------------------------------------------------- */
 
 .PricingCards--items-2 {
-  padding-block: var(--base-size-48);
-  padding-inline: var(--base-size-64);
+  padding-block: var(--base-size-40);
+  padding-inline: var(--base-size-32);
   border-radius: var(--brand-borderRadius-xlarge);
   border: solid 1px var(--brand-color-border-default);
   background-color: var(--brand-color-canvas-default);
-  column-gap: calc(var(--pricing-cards-column-gap) * 2);
+  column-gap: var(--pricing-cards-item-gap);
 }
 
+/* Horizontal border between items */
 .PricingCards--items-2 .PricingCards__item:nth-child(2)::before {
   content: '';
   position: absolute;
-  inset-block: 0;
-  width: 1px;
-  margin-inline-start: calc(var(--pricing-cards-column-gap) * -1);
+  inset-inline: 0;
+  height: 1px;
+  margin-block-start: calc(var(--pricing-cards-item-gap) / 2 * -1);
   background-color: var(--brand-color-border-default);
 }
 
-/*
- * Three column layout
- */
+/* Vertical border between items */
+@media (min-width: 63.25rem) {
+  .PricingCards--items-2 .PricingCards__item:nth-child(2)::before {
+    inset-block: 0;
+    width: 1px;
+    height: auto;
+    margin-block-start: 0;
+    margin-inline-start: calc(var(--pricing-cards-item-gap) / 2 * -1);
+  }
+}
+
+@media (min-width: 80rem) {
+  .PricingCards--items-2 {
+    --pricing-cards-item-gap: calc(var(--base-size-96) * 2);
+
+    padding-block: var(--base-size-48);
+    padding-inline: var(--base-size-64);
+    column-gap: var(--pricing-cards-item-gap);
+  }
+}
+
+/* ---------------------------------------------------------- */
+/* 5. Three item layout                                       */
+/* ---------------------------------------------------------- */
 
 .PricingCards--items-3 {
   column-gap: var(--base-size-32);
@@ -58,16 +111,23 @@
   background-color: var(--brand-color-canvas-default);
 }
 
-/*
- * Item
- */
+/* ---------------------------------------------------------- */
+/* 6. Item                                                    */
+/* ---------------------------------------------------------- */
 
+/* 
+ * [1] Used for positioning the border between items in the 2 item layout 
+ */
 .PricingCards__item {
-  position: relative;
-  display: grid;
-  grid-row: label / actions;
-  grid-template-columns: 1fr;
-  grid-template-rows: subgrid;
+  position: relative; /* [1] */
+}
+
+@media (min-width: 63.28rem) {
+  .PricingCards__item {
+    display: grid;
+    grid-row: label / actions;
+    grid-template-rows: subgrid;
+  }
 }
 
 /*
@@ -76,20 +136,22 @@
  * https://caniuse.com/?search=subgrid
  */
 @supports not (grid-template-rows: subgrid) {
-  grid-template-columns: 1fr;
-  grid-template-rows: auto;
-  grid-template-areas:
-    'label'
-    'heading'
-    'description'
-    'price'
-    'feature-list'
-    'actions';
+  .PricingCards__item {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      'label'
+      'heading'
+      'description'
+      'price'
+      'feature-list'
+      'actions';
+  }
 }
 
-/*
- * Content
- */
+/* ---------------------------------------------------------- */
+/* 7. Content                                                 */
+/* ---------------------------------------------------------- */
 
 .PricingCards__label {
   grid-row: label;
@@ -136,9 +198,15 @@
 .PricingCards__actions {
   grid-row: actions;
   display: flex;
+  flex-direction: column;
   gap: var(--base-size-8);
-  flex-direction: row;
-  flex-wrap: wrap;
+}
+
+@media (min-width: 63.25rem) {
+  .PricingCards__actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
 }
 
 .PricingCards--items-3 .PricingCards__actions {

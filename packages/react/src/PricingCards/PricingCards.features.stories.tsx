@@ -11,6 +11,7 @@ const decorators = Story => (
       paddingBlockEnd="spacious"
       style={{
         ['--brand-color-accent-primary']: 'var(--base-color-scale-purple-4)',
+        minHeight: '100vh',
       }}
     >
       <Grid>
@@ -58,7 +59,9 @@ export const TwoItems: StoryFn<typeof PricingCards> = () => {
         <PricingCards.Label>Recommended</PricingCards.Label>
         <PricingCards.Heading>Copilot</PricingCards.Heading>
         <PricingCards.Description>Copilot in the coding environment.</PricingCards.Description>
-        <PricingCards.Price trailingText="per user / month">Included</PricingCards.Price>
+        <PricingCards.Price currencySymbol="$" trailingText="per month / $100 per year">
+          10
+        </PricingCards.Price>
         <PricingCards.FeatureList>
           <PricingCards.FeatureListItem variant="highlight">
             Everything in Copilot Business plus:

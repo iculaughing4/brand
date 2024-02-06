@@ -259,6 +259,7 @@ const PricingCardsPrimaryAction = forwardRef<
     <Button
       as={as}
       className={clsx(styles['PricingCards__primary-action'], className)}
+      size="medium"
       variant="primary"
       {...rest}
       ref={ref as React.Ref<HTMLButtonElement>}
