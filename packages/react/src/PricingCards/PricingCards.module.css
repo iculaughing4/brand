@@ -23,7 +23,17 @@
 /* ---------------------------------------------------------- */
 
 .PricingCards--items-1 {
+  padding-block: var(--base-size-40);
+  padding-inline: var(--base-size-32);
+  border-radius: var(--brand-borderRadius-xlarge);
+  border: solid 1px var(--brand-color-border-default);
+  background-color: var(--brand-color-canvas-default);
+}
+
+.PricingCards--items-1,
+.PricingCards--items-1 .PricingCards__item {
   display: flex;
+  flex-direction: column;
 }
 
 /* ---------------------------------------------------------- */
@@ -52,7 +62,7 @@
 }
 
 /* ---------------------------------------------------------- */
-/* 4. Two item layout                                         */
+/* 4. Two items                                               */
 /* ---------------------------------------------------------- */
 
 .PricingCards--items-2 {
@@ -96,7 +106,7 @@
 }
 
 /* ---------------------------------------------------------- */
-/* 5. Three item layout                                       */
+/* 5. Three items                                             */
 /* ---------------------------------------------------------- */
 
 .PricingCards--items-3 {
@@ -125,7 +135,7 @@
 @media (min-width: 63.28rem) {
   .PricingCards__item {
     display: grid;
-    grid-row: label / actions;
+    grid-row: label / footer;
     grid-template-rows: subgrid;
   }
 }
@@ -145,8 +155,14 @@
       'description'
       'price'
       'feature-list'
-      'actions';
+      'footer';
   }
+}
+
+.PricingCards__item.PricingCards__item--featured {
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--brand-color-accent-primary);
 }
 
 /* ---------------------------------------------------------- */
@@ -195,8 +211,15 @@
   fill: var(--brand-color-accent-primary);
 }
 
+.PricingCards__footer {
+  grid-row: footer;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--base-size-24);
+}
+
 .PricingCards__actions {
-  grid-row: actions;
   display: flex;
   flex-direction: column;
   gap: var(--base-size-8);
@@ -244,4 +267,8 @@
 
 .PricingCards__price-trailing-text {
   align-self: center;
+}
+
+.PricingCards__footNode {
+  white-space: break-spaces;
 }

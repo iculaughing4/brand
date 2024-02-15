@@ -68,11 +68,20 @@ export type PricingCardsItem<C extends keyof JSX.IntrinsicElements = 'article'> 
    * The HTML element used to render individual PricingCards items.
    */
   as?: C | 'article' | 'div'
+  featured?: boolean
 } & (C extends 'article' ? PropsWithChildren<BaseProps<HTMLElement>> : PropsWithChildren<BaseProps<HTMLDivElement>>)
 
 const PricingCardsItem = forwardRef(
   (
-    {children, className, animate, as = 'article', style, ...rest}: PropsWithChildren<PricingCardsItem>,
+    {
+      children,
+      className,
+      animate,
+      as = 'article',
+      featured = false,
+      style,
+      ...rest
+    }: PropsWithChildren<PricingCardsItem>,
     ref: Ref<HTMLDivElement>,
   ) => {
     const {classes: animationClasses, styles: animationInlineStyles} = useAnimation(animate)
@@ -101,19 +110,36 @@ const PricingCardsItem = forwardRef(
       return false
     })
 
+    const footNotes = React.Children.toArray(children).filter(child => {
+      if (React.isValidElement(child) && typeof child.type !== 'string') {
+        if (child.type === PricingCardsFootNote) {
+          return true
+        }
+      }
+      return false
+    })
+
     const validElements = ['div', 'article']
     const Component = validElements.includes(as) ? as : 'div'
 
     return (
       <Component
-        className={clsx(styles.PricingCards__item, animationClasses, className)}
+        className={clsx(
+          styles.PricingCards__item,
+          {[styles[`PricingCards__item--featured`]]: featured},
+          animationClasses,
+          className,
+        )}
         ref={ref}
         {...(rest as HTMLAttributes<HTMLElement>)}
         style={{...animationInlineStyles, ...style}}
       >
         {filteredChildren}
 
-        <footer className={styles.PricingCards__actions}>{filteredActions}</footer>
+        <footer className={styles.PricingCards__footer}>
+          {footNotes}
+          <div className={styles.PricingCards__actions}>{filteredActions}</div>
+        </footer>
       </Component>
     )
   },
@@ -288,6 +314,26 @@ const PricingCardsSecondaryAction = forwardRef<
   )
 })
 
+type PricingCardsFootNoteProps = BaseProps<HTMLParagraphElement>
+
+const PricingCardsFootNote = forwardRef<HTMLParagraphElement, PricingCardsFootNoteProps>(
+  ({children, className, ...rest}, ref) => {
+    return (
+      <Text
+        as="p"
+        ref={ref}
+        size="100"
+        weight="light"
+        variant="muted"
+        className={clsx(styles['PricingCards__footnote'], className)}
+        {...rest}
+      >
+        {children}
+      </Text>
+    )
+  },
+)
+
 /**
  * Pricing card component:
  * {@link https://primer.style/brand/components/PricingCards/ See usage examples}.
@@ -302,4 +348,5 @@ export const PricingCards = Object.assign(PricingCardsRoot, {
   FeatureListItem: PricingCardsFeatureListItem,
   PrimaryAction: PricingCardsPrimaryAction,
   SecondaryAction: PricingCardsSecondaryAction,
+  FootNote: PricingCardsFootNote,
 })
